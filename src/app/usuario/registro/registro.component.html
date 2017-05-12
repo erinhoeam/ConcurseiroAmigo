@@ -1,0 +1,79 @@
+<app-menu-superior></app-menu-superior>
+<div class="container main-container">
+  <h4>Registro Usuário</h4>
+  <hr />
+
+  <form #fb="ngForm" (ngSubmit)="save(fb)" >
+    <div class="form-horizontal">
+      
+      <app-template-form-control-summary [errors]="errors"></app-template-form-control-summary>
+
+      <div class="form-group" [ngClass]="aplicaCssErro(nome,fb.submitted)">
+        <label class="col-md-2 control-label" for="nome">Nome Completo</label>
+        <div class="col-md-6">
+          <input required minlength="3" #nome="ngModel" 
+          [(ngModel)]="usuario.Nome" 
+          class="form-control" id="nome" name="nome" type="text" placeholder="Nome (requerido)" />
+          <div *ngIf="verificaValidTouched(nome,fb.submitted)">
+            <app-template-control-form-error msgError="Nome requerido." [hidden]="!nome.errors.required">
+            </app-template-control-form-error>
+            <app-template-control-form-error msgError="Nome deve conter mais de 3 caracteres." [hidden]="!nome.errors.minlength">
+            </app-template-control-form-error>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group" [ngClass]="aplicaCssErro(email,fb.submitted)">
+        <label class="col-md-2 control-label" for="email">Email</label>
+        <div class="col-md-6">
+          <input required email #email="ngModel" 
+          [(ngModel)]="usuario.Email" 
+          class="form-control" id="email" name="email" type="text" placeholder="Email (requerido)" />
+          <div *ngIf="verificaValidTouched(email,fb.submitted)">
+            <app-template-control-form-error msgError="Email requerido." [hidden]="!email.errors.required">
+            </app-template-control-form-error>
+            <app-template-control-form-error msgError="Email inválido" [hidden]="!email.errors.email">
+            </app-template-control-form-error>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group" [ngClass]="aplicaCssErro(senha,fb.submitted)">
+        <label class="col-md-2 control-label" for="senha">Senha</label>
+        <div class="col-md-6">
+          <input required minlength="6" #senha="ngModel" 
+          [(ngModel)]="usuario.Password" 
+          class="form-control" id="senha" name="senha" type="password" placeholder="Senha (requerido)" />
+          <div *ngIf="verificaValidTouched(senha,fb.submitted)">
+            <app-template-control-form-error msgError="Senha requerida." [hidden]="!senha.errors.required">
+            </app-template-control-form-error>
+            <app-template-control-form-error msgError="Senha deve conter pelo menos 6 caracteres." [hidden]="!senha.errors.minlength">
+            </app-template-control-form-error>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group" [ngClass]="aplicaCssErro(confirmeSenha,fb.submitted)">
+        <label class="col-md-2 control-label" for="confirmeSenha">Confirme a Senha</label>
+        <div class="col-md-6">
+          <input required minlength="6" #confirmeSenha="ngModel" validateEqual="senha"
+          [(ngModel)]="usuario.ConfirmPassword" 
+          class="form-control" id="confirmeSenha" name="confirmeSenha" type="password" placeholder="Confirme a Senha" />
+          <div *ngIf="verificaValidTouched(confirmeSenha,fb.submitted)">
+            <app-template-control-form-error msgError="Confirmação requerida." [hidden]="!confirmeSenha.errors.required">
+            </app-template-control-form-error>
+            <app-template-control-form-error msgError="Senha deve conter pelo menos 6 caracteres." [hidden]="!confirmeSenha.errors.minlength">
+            </app-template-control-form-error>
+            <app-template-control-form-error msgError="A seha digitada é diferente da confirmada." [hidden]="confirmeSenha.errors.validateEqual">
+            </app-template-control-form-error>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-md-4 col-md-offset-2">
+          <span><button class="btn btn-success" type="submit" [disabled]="!fb.valid || loading">Registrar</button></span>
+        </div>
+      </div>
+    </div>
+  </form>
